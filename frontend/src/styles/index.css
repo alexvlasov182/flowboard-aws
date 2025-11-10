@@ -1,0 +1,23 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+body {
+  @apply min-h-screen font-sans;
+}
+
+/* Light mode (default) */
+body {
+  @apply bg-white text-gray-900;
+}
+
+/* Dark mode */
+.dark body {
+  @apply bg-[#191919] text-gray-100;
+}
