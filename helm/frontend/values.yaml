@@ -1,0 +1,10 @@
+image:
+  repository: flowboard-frontend
+  tag: local
+
+service:
+  type: ClusterIP
+  port: 3000
+
+env:
+  BACKEND_URL: http://flowboard-backend:8080
