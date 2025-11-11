@@ -1,16 +1,21 @@
 image:
   repository: flowboard-backend
-  tag: local
+  tag: latest
 
-env:
-  DB_HOST: flowboard-db-postgresql.flowboard.svc.cluster.local
-  DB_PORT: "5432"
-  DB_USER: postgres
-  DB_PASS: password
-  DB_NAME: flowboard
-  PORT: "8080"
-  JWT_SECRET: devsecret
-  GIN_MODE: release
+
+replicaCount: 2
+
+secrets:
+  jwtSecret: "devsecret"
+  dbUser: "postgres"
+  dbPassword: "password"
+
+config:
+  dbHost: "flowboard-db-postgresql.flowboard.svc.cluster.local"
+  dbPort: "5432"
+  dbName: "flowboard"
+  port: "8080"
+  ginMode: "release"
 
 service:
   type: ClusterIP

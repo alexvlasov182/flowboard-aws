@@ -1,10 +1,16 @@
+replicaCount: 1
+
 image:
   repository: flowboard-frontend
   tag: local
 
+config:
+  apiUrl: "http://flowboard-backend.flowboard.svc.cluster.local:8080"
+
+secrets:
+  someApiKey: "devapikey"
+
 service:
   type: ClusterIP
   port: 3000
-
-env:
-  BACKEND_URL: http://flowboard-backend:8080
+  targetPort: 80
