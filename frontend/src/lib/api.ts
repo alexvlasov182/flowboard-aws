@@ -2,12 +2,12 @@ import axios, { type InternalAxiosRequestConfig, type AxiosRequestHeaders } from
 
 export const getToken = (): string | null => localStorage.getItem('flow_token');
 
-const baseURL = import.meta.env.VITE_API_URL || (window as any).BACKEND_URL || '/api';
+const baseURL = import.meta.env.VITE_API_URL || '/api';
 
 console.log('API baseURL:', baseURL);
 
 const api = axios.create({
-  baseURL: baseURL + '/api',
+  baseURL: baseURL,
   headers: { 'Content-Type': 'application/json' },
 });
 

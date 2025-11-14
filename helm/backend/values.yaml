@@ -1,8 +1,11 @@
 image:
   repository: flowboard-backend
   tag: latest
+  pullPolicy: IfNotPresent
 
 
+nameOverride: flowboard-backend
+fullnameOverride: flowboard-backend
 replicaCount: 2
 
 secrets:

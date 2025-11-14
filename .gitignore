@@ -14,6 +14,7 @@ bin/
 
 # Env
 .env
+.env.example
 .env.local
 .env.*.local
 
@@ -31,3 +32,4 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yml
+
