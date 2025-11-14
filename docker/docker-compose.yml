@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: flowboard
+    ports:
+      - "5432:5432"
+    volumes:
+      - flowboard-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    image: flowboard-backend:local
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_PASS: password
+      DB_NAME: flowboard
+      PORT: "8080"
+      JWT_SECRET: devsecret
+      GIN_MODE: debug
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    image: flowboard-frontend:local
+    ports:
+      - "5173:80"
+    environment:
+      VITE_API_URL: http://localhost:8080
+
+volumes:
+  flowboard-db:

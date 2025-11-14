@@ -3,11 +3,13 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN go build -o flowboard-backend cmd/main.go
+# Static build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o backend cmd/main.go
 
+# Используем distroless без libc зависимостей
 FROM gcr.io/distroless/base-debian11
 WORKDIR /app
-COPY --from=builder /app/flowboard-backend .
+COPY --from=builder /app/backend .
 COPY .env .
 EXPOSE 8080
-CMD ["./flowboard-backend"]
+CMD ["./backend"]

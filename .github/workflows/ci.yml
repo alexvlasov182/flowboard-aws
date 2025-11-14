@@ -1,0 +1,33 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Backend
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.25
+      - run: go mod download
+      - run: go test ./...
+
+      # Frontend
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci --prefix frontend
+      - run: npm test --prefix frontend
+
+      # Docker build & push
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Build & push backend
+        run: docker build -t <AWS_ECR_BACKEND>:latest ./backend && docker push <AWS_ECR_BACKEND>:latest
+      - name: Build & push frontend
+        run: docker build -t <AWS_ECR_FRONTEND>:latest ./frontend && docker push <AWS_ECR_FRONTEND>:latest

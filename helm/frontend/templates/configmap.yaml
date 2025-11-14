@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowboard-frontend-config
+  namespace: flowboard
+data:
+  VITE_API_URL: "http://flowboard-backend.flowboard.svc.cluster.local:8080/api"
+---
+# Update your frontend deployment to use this ConfigMap
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowboard-frontend
+  namespace: flowboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flowboard-frontend
+  template:
+    metadata:
+      labels:
+        app: flowboard-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: flowboard-frontend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: flowboard-frontend-config
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"

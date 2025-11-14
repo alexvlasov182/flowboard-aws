@@ -17,9 +17,10 @@ type Config struct {
 
 func LoadConfig() (*Config, error) {
 	viper.SetConfigFile(".env")
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
-	}
+	_ = viper.ReadInConfig()
+
+	viper.AutomaticEnv()
+
 	cfg := &Config{
 		Port:      viper.GetString("PORT"),
 		DBHost:    viper.GetString("DB_HOST"),

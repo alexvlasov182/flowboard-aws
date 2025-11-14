@@ -41,6 +41,22 @@ func main() {
 	r := gin.Default()
 	r.Use(middleware.CORSMiddleware())
 
+	// Health check endpoint
+	r.GET("/healthz", func(c *gin.Context) {
+		sqlDB, err := db.DB()
+		if err != nil {
+			c.JSON(500, gin.H{"status": "error", "db": "cannot get DB"})
+			return
+		}
+
+		if err := sqlDB.Ping(); err != nil {
+			c.JSON(500, gin.H{"status": "error", "db": "unreachable"})
+			return
+		}
+
+		c.JSON(200, gin.H{"status": "ok", "db": "ok"})
+	})
+
 	api := r.Group("/api")
 	{
 		auth := api.Group("/auth")

@@ -1,0 +1,19 @@
+replicaCount: 1
+nameOverride: flowboard-frontend
+fullnameOverride: flowboard-frontend
+
+image:
+  repository: flowboard-frontend
+  tag: local
+  pullPolicy: IfNotPresent
+
+config:
+  apiUrl: "http://flowboard-backend.flowboard.svc.cluster.local:8080"
+
+secrets:
+  someApiKey: "devapikey"
+
+service:
+  type: ClusterIP
+  port: 3000
+  targetPort: 80

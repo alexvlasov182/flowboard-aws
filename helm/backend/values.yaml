@@ -1,0 +1,25 @@
+image:
+  repository: flowboard-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+
+nameOverride: flowboard-backend
+fullnameOverride: flowboard-backend
+replicaCount: 2
+
+secrets:
+  jwtSecret: "devsecret"
+  dbUser: "postgres"
+  dbPassword: "password"
+
+config:
+  dbHost: "flowboard-db-postgresql.flowboard.svc.cluster.local"
+  dbPort: "5432"
+  dbName: "flowboard"
+  port: "8080"
+  ginMode: "release"
+
+service:
+  type: ClusterIP
+  port: 8080

@@ -2,14 +2,14 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
+# Build argument
 ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 COPY . .
-
-ENV VITE_API_URL=$VITE_API_URL
 
 RUN yarn build
 
