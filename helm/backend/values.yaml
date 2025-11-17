@@ -1,7 +1,7 @@
 image:
   repository: flowboard-backend
-  tag: latest
-  pullPolicy: IfNotPresent
+  tag: local
+  pullPolicy: Never
 
 
 nameOverride: flowboard-backend

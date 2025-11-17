@@ -16,8 +16,8 @@ services:
 
   backend:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.backend
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
     image: flowboard-backend:local
     depends_on:
       db:
@@ -36,8 +36,8 @@ services:
 
   frontend:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile.frontend
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
     image: flowboard-frontend:local
     ports:
       - "5173:80"

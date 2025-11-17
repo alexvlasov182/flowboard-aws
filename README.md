@@ -1,39 +1,38 @@
 # 🚀 Flowboard - Cloud-Native Collaborative Platform
 
-> A full-stack application demonstrating advanced Kubernetes orchestration, cloud-native architecture, and modern DevOps practices
+A full-stack application demonstrating advanced Kubernetes orchestration, cloud-native architecture, and modern DevOps practices.
 
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-[![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)](https://golang.org/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ---
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Key Features](#key-features)
-- [Infrastructure & DevOps](#infrastructure--devops)
-- [Local Development](#local-development)
-- [Kubernetes Deployment](#kubernetes-deployment)
-- [Monitoring & Observability](#monitoring--observability)
-- [Lessons Learned](#lessons-learned)
+- [Overview](#-overview)
+- [Architecture](#%EF%B8%8F-architecture)
+- [Tech Stack](#%EF%B8%8F-tech-stack)
+- [Quick Start](#-quick-start)
+- [Platform-Specific Notes](#%EF%B8%8F-platform-specific-notes)
+- [Deployment Options](#-deployment-options)
+- [Monitoring](#-monitoring--observability)
+- [Troubleshooting](#-troubleshooting)
+- [Lessons Learned](#-lessons-learned)
 
 ---
 
 ## 🎯 Overview
 
-Flowboard is a **production-ready, cloud-native collaborative platform** built to showcase modern software engineering practices. The project demonstrates:
+Flowboard is a **production-ready**, cloud-native collaborative platform built to showcase modern software engineering practices:
 
-- ✅ **Microservices architecture** with container orchestration
-- ✅ **Infrastructure as Code** using Helm charts and Terraform
-- ✅ **Zero-downtime deployments** with Kubernetes
-- ✅ **Observability** with metrics, logging, and monitoring
-- ✅ **CI/CD pipeline** automation
-- ✅ **Security best practices** (JWT authentication, RBAC, network policies)
+✅ **Microservices architecture** with container orchestration  
+✅ **Infrastructure as Code** using Helm charts and Terraform  
+✅ **Zero-downtime deployments** with Kubernetes  
+✅ **Observability** with metrics, logging, and monitoring  
+✅ **Security best practices** (JWT authentication, RBAC, network policies)  
 
 ---
 
@@ -72,8 +71,8 @@ Flowboard is a **production-ready, cloud-native collaborative platform** built t
 1. **External Access**: User → `flowboard.local` → Ingress (port 80)
 2. **Frontend Routing**: Ingress routes `/` → Frontend Service (3000)
 3. **API Routing**: Ingress routes `/api/*` → Backend Service (8080)
-4. **Internal Communication**: Backend → Database via Kubernetes DNS
-   - `flowboard-db-postgresql.flowboard.svc.cluster.local:5432`
+4. **Internal Communication**: Backend → Database via Kubernetes DNS  
+   `flowboard-db-postgresql.flowboard.svc.cluster.local:5432`
 
 ---
 
@@ -91,12 +90,12 @@ Flowboard is a **production-ready, cloud-native collaborative platform** built t
 - **GORM** for database ORM
 - **JWT** for authentication
 - **RESTful API** design
-- **Structured logging**
+- Structured logging
 
 ### Database
 - **PostgreSQL 15**
-- **Migrations** managed via GORM
-- **Connection pooling** configured
+- Migrations managed via GORM
+- Connection pooling configured
 
 ### Infrastructure
 - **Kubernetes (KIND)** - Local development cluster
@@ -107,133 +106,210 @@ Flowboard is a **production-ready, cloud-native collaborative platform** built t
 
 ---
 
-## ✨ Key Features
-
-### 🔐 Authentication & Authorization
-- JWT-based authentication
-- Secure password hashing (bcrypt)
-- Token refresh mechanism
-- Role-based access control (RBAC)
-
-### 📊 Core Functionality
-- User registration and login
-- Page creation and management
-- RESTful API endpoints
-- Real-time data persistence
-
-### 🎨 User Experience
-- Responsive design (mobile-first)
-- Modern UI with smooth animations
-- Form validation
-- Error handling with user feedback
-
----
-
-## 🚀 Infrastructure & DevOps
-
-### Containerization
-```dockerfile
-# Multi-stage Docker builds for optimization
-# Frontend: Node.js build → Nginx runtime (75% size reduction)
-# Backend: Go build → Scratch runtime (90% size reduction)
-```
-
-**Key Achievements:**
-- 📦 **Optimized images**: Frontend 50MB, Backend 15MB
-- 🔒 **Security**: Running as non-root users
-- 🏃 **Performance**: Health checks and readiness probes
-- 📝 **Best practices**: .dockerignore, layer caching
-
-### Kubernetes Configuration
-
-#### Deployment Strategy
-```yaml
-# Rolling updates with zero downtime
-strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 0
-```
-
-#### Resource Management
-```yaml
-resources:
-  requests:
-    memory: "128Mi"
-    cpu: "100m"
-  limits:
-    memory: "512Mi"
-    cpu: "500m"
-```
-
-#### Health Checks
-```yaml
-livenessProbe:
-  httpGet:
-    path: /healthz
-    port: 8080
-  initialDelaySeconds: 20
-  periodSeconds: 10
-
-readinessProbe:
-  httpGet:
-    path: /readyz
-    port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 5
-```
-
-### Helm Charts
-- Templated Kubernetes manifests
-- Environment-specific configurations
-- Dependency management
-- Version controlled releases
-
-### Ingress Configuration
-```yaml
-# Path-based routing
-spec:
-  rules:
-  - host: flowboard.local
-    http:
-      paths:
-      - path: /
-        backend:
-          service:
-            name: flowboard-frontend
-            port: 3000
-      - path: /api
-        backend:
-          service:
-            name: flowboard-backend
-            port: 8080
-```
-
----
-
-## 💻 Local Development
+## ⚡ Quick Start
 
 ### Prerequisites
+
+**Required tools:**
 ```bash
-# Required tools
-- Docker Desktop
-- kubectl
-- KIND (Kubernetes in Docker)
-- Helm 3
-- Go 1.21+
-- Node.js 20+
+# Check versions
+docker --version       # 20.10+
+kubectl version        # 1.28+
+kind version           # 0.20+
+helm version           # 3.12+
 ```
 
-### Quick Start
-
-#### 1️⃣ Clone Repository
+**Optional (for development):**
 ```bash
+go version             # 1.21+
+node --version         # 20+
+```
+
+---
+
+### 🚀 One-Command Deployment
+
+```bash
+# Clone repository
 git clone https://github.com/yourusername/flowboard-aws.git
 cd flowboard-aws
+
+# Make script executable
+chmod +x deploy-local.sh
+
+# Deploy everything
+./deploy-local.sh
 ```
 
-#### 2️⃣ Start with Docker Compose (Development)
+**That's it!** The script automatically:
+- ✅ Detects your OS (macOS/Linux)
+- ✅ Creates KIND cluster
+- ✅ Builds Docker images
+- ✅ Installs PostgreSQL
+- ✅ Deploys backend & frontend
+- ✅ Configures Ingress
+
+---
+
+### 🌐 Access the Application
+
+After deployment completes:
+
+#### **Option 1: Via Ingress (Recommended)**
+
+**Linux:**
+```bash
+# Start port forwarding (requires sudo for port 80)
+sudo kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+```
+
+**macOS:**
+```bash
+# No sudo needed
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+```
+
+Then open: **http://flowboard.local**
+
+---
+
+#### **Option 2: Direct Port Forward**
+
+```bash
+# Frontend
+kubectl port-forward -n flowboard svc/flowboard-frontend 3000:3000
+
+# Backend API
+kubectl port-forward -n flowboard svc/flowboard-backend 8080:8080
+```
+
+Then open:
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:8080
+
+---
+
+## 🖥️ Platform-Specific Notes
+
+### 🍎 macOS (Docker Desktop)
+
+**Advantages:**
+- ✅ Docker Desktop provides better KIND integration
+- ✅ Port forwarding works without `sudo` for ports > 1024
+- ✅ Automatic DNS resolution for `*.local` domains
+
+**Setup:**
+```bash
+# Add to /etc/hosts
+echo "127.0.0.1 flowboard.local" | sudo tee -a /etc/hosts
+
+# Port forwarding (no sudo needed)
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+```
+
+---
+
+### 🐧 Linux (Native Docker)
+
+**Important differences:**
+- ⚠️ Requires `imagePullPolicy: Never` for local images
+- ⚠️ Port forwarding to port 80 requires `sudo`
+- ⚠️ More explicit network configuration needed
+
+**Setup:**
+```bash
+# Add to /etc/hosts (script does this automatically)
+echo "127.0.0.1 flowboard.local" | sudo tee -a /etc/hosts
+
+# Port forwarding (requires sudo)
+sudo kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+```
+
+---
+
+## 📦 Deployment Options
+
+### Option 1: Automated Script (Recommended)
+
+```bash
+./deploy-local.sh
+```
+
+**What it does:**
+1. Creates KIND cluster
+2. Builds Docker images
+3. Loads images into KIND
+4. Installs PostgreSQL via Helm
+5. Deploys backend & frontend
+6. Configures Ingress
+
+---
+
+### Option 2: Manual Deployment
+
+#### **Step 1: Create KIND Cluster**
+```bash
+kind create cluster --name flowboard-aws
+```
+
+#### **Step 2: Build Images**
+```bash
+docker build -t flowboard-frontend:local -f docker/Dockerfile.frontend ./frontend
+docker build -t flowboard-backend:local -f docker/Dockerfile.backend ./backend
+```
+
+#### **Step 3: Load Images into KIND**
+```bash
+kind load docker-image flowboard-frontend:local --name flowboard-aws
+kind load docker-image flowboard-backend:local --name flowboard-aws
+```
+
+#### **Step 4: Install PostgreSQL**
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install flowboard-db bitnami/postgresql \
+  --namespace flowboard \
+  --create-namespace \
+  --set auth.username=postgres \
+  --set auth.password=password \
+  --set auth.database=flowboard
+
+# Wait for database
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=postgresql -n flowboard --timeout=120s
+```
+
+#### **Step 5: Deploy Application**
+```bash
+# Backend
+helm install flowboard-backend ./helm/backend -n flowboard \
+  --set image.tag=local \
+  --set image.pullPolicy=Never
+
+# Frontend
+helm install flowboard-frontend ./helm/frontend -n flowboard \
+  --set image.tag=local \
+  --set image.pullPolicy=Never
+```
+
+#### **Step 6: Configure Ingress**
+```bash
+# Install Ingress Controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+# Wait for Ingress
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+
+# Apply Ingress rules
+kubectl apply -f helm/flowboard-ingress.yaml
+```
+
+---
+
+### Option 3: Docker Compose (Development Only)
+
 ```bash
 cd docker
 docker-compose up -d
@@ -244,107 +320,53 @@ docker-compose up -d
 # Database: localhost:5432
 ```
 
-#### 3️⃣ Deploy to Kubernetes (Production-like)
-```bash
-# Create KIND cluster
-kind create cluster --name flowboard-aws
-
-# Build and load images
-docker build -t flowboard-frontend:local -f docker/Dockerfile.frontend ./frontend
-docker build -t flowboard-backend:local -f docker/Dockerfile.backend ./backend
-
-kind load docker-image flowboard-frontend:local --name flowboard-aws
-kind load docker-image flowboard-backend:local --name flowboard-aws
-
-# Install with Helm
-helm install flowboard ./helm/flowboard -n flowboard --create-namespace
-
-# Setup Ingress
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-
-# Add to /etc/hosts
-echo "127.0.0.1 flowboard.local" | sudo tee -a /etc/hosts
-
-# Port forward
-sudo kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
-
-# Access: http://flowboard.local
-```
+**Note:** This is for local development only. For Kubernetes features, use Options 1 or 2.
 
 ---
 
 ## 📊 Monitoring & Observability
 
-### Metrics Server
+### Check Deployment Status
+
 ```bash
-# Deployed metrics-server for resource monitoring
-kubectl top nodes
-kubectl top pods -n flowboard
+# All resources in flowboard namespace
+kubectl get all -n flowboard
+
+# Watch pods in real-time
+kubectl get pods -n flowboard -w
+
+# Check Helm releases
+helm list -n flowboard
 ```
 
-### Application Metrics
-- **Backend**: Structured logging with request tracing
-- **Health endpoints**: `/healthz`, `/readyz`
-- **Database**: Connection pool metrics
+### View Logs
 
-### Logging
 ```bash
-# View application logs
-kubectl logs -n flowboard -l app=flowboard-backend --tail=100
-kubectl logs -n flowboard -l app=flowboard-frontend --tail=100
+# Backend logs
+kubectl logs -n flowboard -l app=flowboard-backend --tail=50
 
-# Stream logs
+# Frontend logs
+kubectl logs -n flowboard -l app=flowboard-frontend --tail=50
+
+# Database logs
+kubectl logs -n flowboard flowboard-db-postgresql-0 --tail=50
+
+# Follow logs in real-time
 kubectl logs -f -n flowboard deployment/flowboard-backend
 ```
 
----
+### Resource Usage
 
-## 🎓 Lessons Learned
+```bash
+# Node metrics
+kubectl top nodes
 
-### 1. **Frontend Environment Variables in Docker**
-**Problem**: Vite environment variables not being injected at runtime.
+# Pod metrics
+kubectl top pods -n flowboard
 
-**Solution**: 
-- Environment variables must be passed as **build arguments**
-- Variables are embedded during `npm run build`, not at runtime
-- Use `ARG` and `ENV` in Dockerfile correctly
-
-```dockerfile
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
-RUN npm run build
+# Describe pod details
+kubectl describe pod -n flowboard <pod-name>
 ```
-
-### 2. **Kubernetes Networking: Internal vs External**
-**Problem**: Frontend trying to reach backend using internal Kubernetes DNS from browser.
-
-**Solution**:
-- **Browser → Backend**: Use relative paths (`/api`) routed through Ingress
-- **Pod → Pod**: Use Kubernetes DNS (`service.namespace.svc.cluster.local`)
-
-```typescript
-// ✅ Correct for browser
-const API_URL = '/api';
-
-// ✅ Correct for Pod → Pod
-const DB_HOST = 'flowboard-db-postgresql.flowboard.svc.cluster.local';
-```
-
-### 3. **Docker Image Caching in KIND**
-**Problem**: KIND cluster using old Docker images despite rebuilding.
-
-**Solution**:
-- Use unique image tags (`:v1`, `:v2`) instead of `:latest`
-- Set `imagePullPolicy: Never` for local images
-- Explicitly reload images: `kind load docker-image`
-
-### 4. **Metrics Server in KIND**
-**Problem**: Standard metrics-server configuration failing with TLS errors.
-
-**Solution**:
-- Configure metrics-server with `--kubelet-insecure-tls` for KIND
-- Add proper RBAC permissions
-- Mount `/tmp` as writable volume for certificates
 
 ---
 
@@ -352,146 +374,252 @@ const DB_HOST = 'flowboard-db-postgresql.flowboard.svc.cluster.local';
 
 ### Common Issues
 
-#### 1. Connection Refused
-```bash
-# Check pod status
-kubectl get pods -n flowboard
+#### ❌ **Issue 1: ImagePullBackOff**
 
+**Symptoms:**
+```bash
+pod/flowboard-backend-xxx     0/1     ImagePullBackOff
+```
+
+**Solution:**
+```bash
+# Reload images into KIND
+kind load docker-image flowboard-backend:local --name flowboard-aws
+kind load docker-image flowboard-frontend:local --name flowboard-aws
+
+# Restart pods
+kubectl delete pod -n flowboard -l app=flowboard-backend
+kubectl delete pod -n flowboard -l app=flowboard-frontend
+```
+
+**Root cause:** Local Docker images not loaded into KIND cluster.
+
+---
+
+#### ❌ **Issue 2: CrashLoopBackOff**
+
+**Symptoms:**
+```bash
+pod/flowboard-backend-xxx     0/1     CrashLoopBackOff
+```
+
+**Solution:**
+```bash
 # Check logs
 kubectl logs -n flowboard <pod-name>
 
-# Check service endpoints
-kubectl get endpoints -n flowboard
+# Most common: Database not ready
+kubectl get pods -n flowboard | grep postgres
+
+# If no database, install it
+helm install flowboard-db bitnami/postgresql \
+  --namespace flowboard \
+  --set auth.username=postgres \
+  --set auth.password=password \
+  --set auth.database=flowboard
 ```
 
-#### 2. Ingress Not Working
+**Root cause:** Backend can't connect to PostgreSQL.
+
+---
+
+#### ❌ **Issue 3: Connection Refused (Ingress)**
+
+**Symptoms:**
 ```bash
-# Verify ingress controller is running
-kubectl get pods -n ingress-nginx
+curl: (7) Failed to connect to flowboard.local port 80
+```
 
-# Check ingress configuration
-kubectl describe ingress flowboard-ingress -n flowboard
+**Solution:**
+```bash
+# Check /etc/hosts
+cat /etc/hosts | grep flowboard
+# Should show: 127.0.0.1 flowboard.local
 
-# Ensure port-forward is active
+# If missing, add it
+echo "127.0.0.1 flowboard.local" | sudo tee -a /etc/hosts
+
+# Check port-forward is running
+ps aux | grep port-forward
+
+# Start port-forward
+# Linux:
 sudo kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+
+# macOS:
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
 ```
 
-#### 3. Database Connection Issues
+---
+
+#### ❌ **Issue 4: Port 8080 Already in Use**
+
+**Symptoms:**
 ```bash
-# Check database pod
-kubectl get pods -n flowboard | grep db
+Error listen tcp 127.0.0.1:8080: bind: address already in use
+```
 
-# Verify database service
-kubectl get svc -n flowboard | grep db
+**Solution:**
+```bash
+# Find what's using port 8080
+sudo lsof -i :8080
 
-# Test connection from backend pod
-kubectl exec -n flowboard <backend-pod> -- nc -zv flowboard-db-postgresql 5432
+# If it's docker-compose, stop it
+cd docker && docker-compose down
+
+# Or use different port for forwarding
+kubectl port-forward -n flowboard svc/flowboard-backend 8081:8080
+```
+
+---
+
+### Full Reset
+
+If everything is broken, start fresh:
+
+```bash
+# Delete KIND cluster
+kind delete cluster --name flowboard-aws
+
+# Remove from /etc/hosts
+sudo sed -i '/flowboard.local/d' /etc/hosts
+
+# Re-run deployment
+./deploy-local.sh
+```
+
+---
+
+## 🎓 Lessons Learned
+
+### 1. **Image Pull Policy: macOS vs Linux**
+
+**Problem:** On macOS, `imagePullPolicy: IfNotPresent` worked, but on Linux it caused `ImagePullBackOff`.
+
+**Solution:**
+```yaml
+image:
+  pullPolicy: Never  # Always use Never for local images in KIND
+```
+
+**Why:** Docker Desktop (macOS) has better integration with KIND. Native Docker (Linux) is stricter about local images.
+
+---
+
+### 2. **Kubernetes DNS: Browser vs Pod-to-Pod**
+
+**Problem:** Frontend trying to reach backend using internal Kubernetes DNS from browser.
+
+**Solution:**
+- **Browser → Backend:** Use relative paths (`/api`) routed through Ingress
+- **Pod → Pod:** Use Kubernetes DNS (`service.namespace.svc.cluster.local`)
+
+```javascript
+// ✅ Correct for browser
+const API_URL = '/api';
+
+// ✅ Correct for Pod → Pod (backend → database)
+const DB_HOST = 'flowboard-db-postgresql.flowboard.svc.cluster.local';
+```
+
+---
+
+### 3. **Helm Template Conflicts**
+
+**Problem:** Duplicate Deployment definition in `configmap.yaml` caused Helm installation to fail.
+
+**Root cause:** `configmap.yaml` contained both ConfigMap AND Deployment resources:
+```yaml
+apiVersion: v1
+kind: ConfigMap
+---
+# ❌ This should NOT be here!
+apiVersion: apps/v1
+kind: Deployment
+```
+
+**Solution:** Keep only ConfigMap in `configmap.yaml`. Deployment goes in `deployment.yaml`.
+
+---
+
+### 4. **Port Forwarding Permissions**
+
+**Problem:** Port 80 forwarding failed on Linux without `sudo`.
+
+**Solution:**
+```bash
+# Linux: Ports < 1024 require root
+sudo kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+
+# macOS: No sudo needed
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 80:80
+```
+
+---
+
+### 5. **Database Connection Failures**
+
+**Problem:** Backend crashed with `connection refused` to database.
+
+**Root cause:** PostgreSQL not installed in Kubernetes cluster.
+
+**Solution:**
+```bash
+# Always install PostgreSQL via Helm
+helm install flowboard-db bitnami/postgresql \
+  --namespace flowboard \
+  --set auth.username=postgres \
+  --set auth.password=password \
+  --set auth.database=flowboard
+```
+
+**Key learning:** Don't assume database is running. Always verify:
+```bash
+kubectl get pods -n flowboard | grep postgres
 ```
 
 ---
 
 ## 📈 Performance Metrics
 
-- **Build Time**: Frontend 45s, Backend 30s
-- **Image Size**: Frontend 50MB, Backend 15MB
-- **Startup Time**: Frontend 2s, Backend 3s
-- **Resource Usage**: 
+- **Build Time:** Frontend 45s, Backend 30s
+- **Image Size:** Frontend 50MB, Backend 15MB
+- **Startup Time:** Frontend 2s, Backend 3s
+- **Resource Usage:**
   - Frontend: ~50MB RAM, 0.01 CPU
   - Backend: ~30MB RAM, 0.02 CPU
   - Database: ~70MB RAM, 0.01 CPU
 
 ---
 
-## 🔒 Security Features
-
-- ✅ Non-root container users
-- ✅ Read-only root filesystems
-- ✅ Network policies (TODO)
-- ✅ Secret management via Kubernetes Secrets
-- ✅ RBAC for service accounts
-- ✅ JWT token validation
-- ✅ CORS configuration
-- ✅ SQL injection prevention (parameterized queries)
-
----
-
 ## 🗺️ Roadmap
 
-- [ ] **CI/CD Pipeline**: GitHub Actions for automated testing and deployment
-- [ ] **Monitoring**: Prometheus + Grafana dashboards
-- [ ] **Logging**: ELK/EFK stack integration
-- [ ] **Auto-scaling**: HPA based on CPU/memory metrics
-- [ ] **Service Mesh**: Istio for advanced traffic management
-- [ ] **GitOps**: ArgoCD for declarative deployments
-- [ ] **Cloud Deployment**: AWS EKS / GCP GKE
-- [ ] **Database Backup**: Automated backup and restore procedures
-
----
-
-## 📚 Documentation
-
-- [Architecture Deep Dive](./docs/architecture.md) (TODO)
-- [API Documentation](./docs/api.md) (TODO)
-- [Deployment Guide](./docs/deployment.md) (TODO)
-- [Troubleshooting Guide](./docs/troubleshooting.md) (TODO)
-
----
-
-## 🤝 Contributing
-
-This is a personal learning project, but feedback and suggestions are welcome!
+- [ ] CI/CD Pipeline (GitHub Actions)
+- [ ] Monitoring (Prometheus + Grafana)
+- [ ] Logging (ELK/EFK stack)
+- [ ] Auto-scaling (HPA)
+- [ ] Service Mesh (Istio)
+- [ ] GitOps (ArgoCD)
+- [ ] Cloud Deployment (AWS EKS / GCP GKE)
 
 ---
 
 ## 📄 License
 
-MIT License - See [LICENSE](LICENSE) file for details
+MIT License - See LICENSE file for details
 
 ---
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Alex**
 - GitHub: [@yourusername](https://github.com/yourusername)
 - LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
 
 ---
 
-## 🎯 Interview Talking Points
+## ⭐ Star This Project
 
-### What Makes This Project Stand Out?
+If you found this project helpful, please give it a star! It helps others discover it.
 
-1. **Production-Ready Architecture**
-   - Not just a toy app - follows industry best practices
-   - Demonstrates understanding of cloud-native principles
-   - Ready to scale from 1 to 1000s of users
-
-2. **Deep Technical Knowledge**
-   - Solved real-world problems (networking, container orchestration)
-   - Debugged complex issues (DNS resolution, build-time vs runtime configs)
-   - Optimized for performance (multi-stage builds, resource limits)
-
-3. **DevOps & SRE Skills**
-   - Infrastructure as Code (Helm, Kubernetes manifests)
-   - Monitoring and observability (metrics, logs, health checks)
-   - Deployment strategies (rolling updates, zero downtime)
-
-4. **Problem-Solving Ability**
-   - Documented lessons learned from real challenges
-   - Iterative approach to finding solutions
-   - Clear understanding of trade-offs
-
-5. **Modern Stack**
-   - Go for high-performance backend
-   - React for modern frontend
-   - Kubernetes for cloud-native deployment
-   - Everything containerized and ready for CI/CD
-
----
-
-**⭐ If you found this project interesting, please star the repository!**
-
----
-
-*Last updated: November 2025*
+**Last updated:** November 2025

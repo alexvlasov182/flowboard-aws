@@ -1,18 +1,20 @@
-# Stage 1: build
+# --- Builder ---
 FROM golang:1.25.3-alpine AS builder
-WORKDIR /src
+WORKDIR /app
 
-COPY backend/go.mod backend/go.sum ./
+COPY go.mod go.sum ./
 RUN go mod download
-COPY backend/ .
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /bin/flowboard ./cmd
+RUN go build -o server ./cmd/main.go
 
-# Stage 2: runtime
+
+# --- Final image ---
 FROM gcr.io/distroless/static-debian11
-COPY --from=builder /bin/flowboard /bin/flowboard
+
+WORKDIR /app
+COPY --from=builder /app/server .
+
 EXPOSE 8080
-USER 1000
-ENTRYPOINT ["/bin/flowboard"]
+CMD ["./server"]
